@@ -9,12 +9,12 @@ use App\Models\Post;
 
 class SearchController extends Controller {
     public function search(Request $request) {
-       $find_post = Post::where('title' , '%like%' , $request->title)->get();
+       $find_post = Post::with(['user', 'comments.user'])->where('title' , 'LIKE',"%$request->title%")->get();
 
        if(count($find_post) > 0) {
-        return response()->json($find_post);
+        return response()->json($find_post,200);
        } else {
-         return response()->json(Post::all());
+         return response()->json(Post::with(['user', 'comments.user'],400)->get());
        }
     }
 }

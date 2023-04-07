@@ -5,17 +5,23 @@ import { useDispatch,useSelector } from "react-redux";
 import {
   Home ,
   Upload,
-  Profile
+  Profile,
+  UpdatePost
 } from './screens';
 import { useEffect } from "react";
 import { getAllPosts } from "./slices/PostSlice";
 import { closeAlert } from "./slices/AlertSlice";
+import { GetProfilePosts } from "./slices/ProfileSlice";
 
 function App() {
   const dispatch = useDispatch();
   const { auth,alert } = useSelector(state=>state);
 
   useEffect(() => {
+
+    if(auth.token) {
+       dispatch(GetProfilePosts({ userid:auth.user.id }));
+    }
  
     dispatch(getAllPosts());
 
@@ -31,6 +37,7 @@ function App() {
         <Route index element={<Home />}></Route>
         <Route path="/create" element={<Upload/>}/>
         <Route path="/profile" element={<Profile/>}/>
+        <Route path="/update-post/:id" element={<UpdatePost/>}/>
       </Routes>
    </div>
   )

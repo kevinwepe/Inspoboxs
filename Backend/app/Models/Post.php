@@ -34,12 +34,11 @@ class Post extends Model
         'image',
         'description'
     ];
-    
+
     protected $guarded = [
         'id'
     ];
 
     protected $hidden = [
-        'id'
     ];
 }
